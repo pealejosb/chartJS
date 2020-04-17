@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <title>mi título</title>
+    <meta charset='UTF-8'>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4' crossorigin='anonymous'>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity="sha256-8zyeSXm+yTvzUN1VgAOinFgaVFEFTyYzWShOy9w7WoQ=" crossorigin="anonymous"></script>
+     <script src="utils.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Título del contenido </h1>
+        </header> 
+
+        <canvas id="canvas" style="display: block; width: 499px; height: 249px;" width="499" height="249" class="chartjs-render-monitor"></canvas>
+        <button id="randomizeData">Generar Datos al Azar</button>
+
+    </div>
+   
+    <script>
+      
+		
+      var chartData = {
+			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+			datasets: [{
+				type: 'line',
+				label: 'Dataset 1',
+                borderColor: 'rgb(0, 204, 0)',
+                backgroundColor: 'rgb(0, 204, 0)',
+				borderWidth: 2,
+				fill: false,
+				data: [
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor()
+				]
+			}, {
+				type: 'bar',
+				label: 'Dataset 2',
+				backgroundColor: window.chartColors.red,
+				data: [
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor()
+				],
+				/*borderColor: 'white',*/
+				/*borderWidth: 2*/
+			}, {
+				type: 'bar',
+				label: 'Dataset 3',
+				backgroundColor: window.chartColors.green,
+				data: [
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor()
+				]
+			}]
+
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myMixedChart = new Chart(ctx, {
+				type: 'bar',
+				data: chartData,
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Chart.js Combo Bar Line Chart'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: true
+                    },
+                    scales: {
+						xAxes: [{
+							stacked: true , ticks:{mirror:true}
+						}],
+						yAxes: [{
+							stacked: true,ticks:{mirror:true}
+						}]
+					}
+				}
+			});
+		};
+
+		document.getElementById('randomizeData').addEventListener('click', function() {
+			chartData.datasets.forEach(function(dataset) {
+				dataset.data = dataset.data.map(function() {
+					return randomScalingFactor();
+				});
+			});
+			window.myMixedChart.update();
+		});
+	
+	
+    </script>
+</body>
